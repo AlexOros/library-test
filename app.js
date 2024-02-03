@@ -1,41 +1,60 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+import createError from "http-errors";
+import express, { json, urlencoded, static as expressStatic } from "express";
+import path, { join } from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
+import { fileURLToPath } from "url";
+import mongoose from "mongoose";
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const mongoDB =
+  "mongodb+srv://admin:axelrico18@cluster-test-1.mzkgcsu.mongodb.net/?retryWrites=true&w=majority";
 
-var app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+main();
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+async function main() {
+  const app = express();
+  // view engine setup
+  app.set("views", join(__dirname, "views"));
+  app.set("view engine", "ejs");
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+  app.use(logger("dev"));
+  app.use(cookieParser());
+  app.use(json());
+  app.use(urlencoded({ extended: false }));
+  app.use(expressStatic(join(__dirname, "public")));
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+  app.use("/", indexRouter);
+  app.use("/users", usersRouter);
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  // catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    console.log("called");
+    next(createError(404));
+  });
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
+  // error handler
+  app.use((err, req, res, next) => {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-app.listen(3000, () => "Listening on port 3000");
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  });
+  mongoose.set("strictQuery", false);
+
+  try {
+    await mongoose.connect(mongoDB, {
+      dbName: "library",
+    });
+    app.listen(3000, () => "Listening on port 3000");
+  } catch (error) {
+    console.log(error);
+  }
+}
