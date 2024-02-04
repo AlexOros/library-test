@@ -24,7 +24,7 @@ const bookInstanceSchema = new Schema(
 // Virtual for bookinstance's URL
 bookInstanceSchema.virtual("url").get(function () {
   // We don't use an arrow function as we'll need the this object
-  return `/catalog/bookinstances/${this._id}`;
+  return `/catalog/book-instances/${this._id}`;
 });
 
 export default mongoose.model("BookInstance", bookInstanceSchema);
