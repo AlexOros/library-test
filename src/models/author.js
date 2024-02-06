@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { DateTime } from "luxon";
 
 const Schema = mongoose.Schema;
 
@@ -16,6 +17,23 @@ const authorSchema = new Schema(
     },
   }
 );
+
+// Virtual for author's full name
+authorSchema.virtual("date_of_birth_formatted").get(function () {
+  if (!this.date_of_birth) return "Unknown";
+  return DateTime.fromJSDate(this.date_of_birth).toLocaleString(
+    DateTime.DATE_MED
+  );
+});
+
+// Virtual for author's full name
+authorSchema.virtual("date_of_death_formatted").get(function () {
+  if (!this.date_of_birth) return "Unknown";
+  if (!this.date_of_death) return "Present";
+  return DateTime.fromJSDate(this.date_of_death).toLocaleString(
+    DateTime.DATE_MED
+  );
+});
 
 // Virtual for author's full name
 authorSchema.virtual("name").get(function () {

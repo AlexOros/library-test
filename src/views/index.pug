@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #[em LocalLibrary], a very basic Express website.
+
+  h2 Content
+
+  p The library has the following record counts:
+
+  ul
+    li #[strong Books:] !{bookCount}
+    li #[strong Copies:] !{bookInstanceCount}
+    li #[strong Copies available:] !{availableBookInstanceCount}
+    li #[strong Authors:] !{authorCount}
+    li #[strong Genres:] !{genreCount}

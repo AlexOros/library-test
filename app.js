@@ -1,10 +1,6 @@
 import express from "express";
-import path from "path";
 import indexRouter from "./src/routes/index.js";
-import wikiRouter from "./src/routes/wiki/index.js";
-// import authorRouter from "./routes/author.js";
-// import bookRouter from "./routes/book.js";
-// import bookInstanceRouter from "./routes/book-instance.js";
+import catalogRouter from "./src/routes/catalog/index.js";
 import { setupDB, setupApp, setupErrors } from "./setup.js";
 
 main();
@@ -14,16 +10,18 @@ async function main() {
   setupApp(app);
 
   app.use("/", indexRouter);
-  app.use("/wiki", wikiRouter);
-  // app.use("/authors", authorRouter);
-  // app.use("/books", bookRouter);
-  // app.use("/book-instances", bookInstanceRouter);
+  // app.use('/users', usersRouter);
+  app.use("/catalog", catalogRouter);
 
   setupErrors(app);
 
   try {
     await setupDB();
-    app.listen(3000, () => "Listening on port 3000");
+    app.listen(3000, () => {
+      console.log("Listening on port 3000");
+    });
+
+    // console.log(app._router.stack);
   } catch (error) {
     console.log(error);
   }

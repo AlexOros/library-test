@@ -10,8 +10,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export function setupApp(app) {
   // view engine setup
-  app.set("views", join(__dirname, "src/views"));
-  app.set("view engine", "ejs");
+  app.set("views", path.join(__dirname, "src/views"));
+  app.set("view engine", "pug");
 
   app.use(logger("dev"));
   app.use(cookieParser());

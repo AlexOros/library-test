@@ -10,11 +10,14 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-async-handler": "^1.2.0",
+    "express-list-routes": "^1.1.9",
     "http-errors": "~1.6.3",
+    "luxon": "^3.4.4",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "pug": "^3.0.2"
   }
 }

@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+
+  if bookInstanceList.length
+    ul
+      each bookInstance in bookInstanceList
+        li
+          a(href=bookInstance.url) #{bookInstance.book.title} : #{bookInstance.imprint} &nbsp;
+          span -&nbsp;
+          if bookInstance.status=='available'
+            span.text-success #{bookInstance.status}
+          else if bookInstance.status=='maintenance'
+            span.text-danger #{bookInstance.status}
+          else
+            span.text-warning #{bookInstance.status}
+          if bookInstance.status!='available'
+            span  (Due: #{bookInstance.due_back_formatted} )
+
+  else
+    p There are no book copies in this library.
