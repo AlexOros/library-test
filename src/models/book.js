@@ -23,4 +23,3 @@ BookSchema.virtual("url").get(function () {
 });
 
 export default mongoose.model("Book", BookSchema);
-z;
