@@ -12,16 +12,15 @@ const BookSchema = new Schema(
   },
   {
     timestamps: {
-      createdAt: "created_at", // Use `created_at` to store the created date
-      updatedAt: "updated_at", // and `updated_at` to store the last updated date
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     },
   }
 );
 
-// Virtual for book's URL
 BookSchema.virtual("url").get(function () {
-  // We don't use an arrow function as we'll need the this object
   return `/catalog/books/${this._id}`;
 });
 
 export default mongoose.model("Book", BookSchema);
+z;

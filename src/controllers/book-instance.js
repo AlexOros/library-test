@@ -22,7 +22,6 @@ export const book_instance_detail = asyncHandler(async (req, res, next) => {
     .exec();
 
   if (bookInstance === null) {
-    // No results.
     const err = new Error("Book copy not found");
     err.status = 404;
     return next(err);
@@ -44,7 +43,6 @@ export const book_instance_create_get = asyncHandler(async (req, res, next) => {
 });
 
 export const book_instance_create_post = [
-  // Validate and sanitize fields.
   body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
   body("imprint", "Imprint must be specified")
     .trim()
@@ -56,12 +54,9 @@ export const book_instance_create_post = [
     .isISO8601()
     .toDate(),
 
-  // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
-    // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a BookInstance object with escaped and trimmed data.
     const bookInstance = new BookInstance({
       book: req.body.book,
       imprint: req.body.imprint,
@@ -70,8 +65,6 @@ export const book_instance_create_post = [
     });
 
     if (!errors.isEmpty()) {
-      // There are errors.
-      // Render form again with sanitized values and error messages.
       const allBooks = await Book.find({}, "title").sort({ title: 1 }).exec();
 
       res.render("book-instance/form", {
@@ -83,7 +76,6 @@ export const book_instance_create_post = [
       });
       return;
     } else {
-      // Data from form is valid
       await bookInstance.save();
       res.redirect(bookInstance.url);
     }
@@ -94,7 +86,6 @@ export const book_instance_delete_get = asyncHandler(async (req, res, next) => {
   const bookInstance = await BookInstance.findById(req.params.id);
 
   if (bookInstance === null) {
-    // No results.
     res.redirect("/catalog/book-instances");
     return;
   }
@@ -111,7 +102,6 @@ export const book_instance_delete_post = asyncHandler(async (req, res) => {
 });
 
 export const book_instance_update_get = [
-  // Validate and sanitize fields.
   body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
   body("imprint", "Imprint must be specified")
     .trim()
@@ -123,19 +113,15 @@ export const book_instance_update_get = [
     .isISO8601()
     .toDate(),
 
-  // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
-    // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Get book, authors and genres for form.
     const [bookInstance, allBooks] = await Promise.all([
       BookInstance.findById(req.params.id).populate("book"),
       Book.find().sort({ title: 1 }),
     ]);
 
     if (bookInstance === null) {
-      // No results.
       const err = new Error("Book not found");
       err.status = 404;
       return next(err);
@@ -152,7 +138,6 @@ export const book_instance_update_get = [
 ];
 
 export const book_instance_update_post = [
-  // Validate and sanitize fields.
   body("book", "Book must be specified").trim().isLength({ min: 1 }).escape(),
   body("imprint", "Imprint must be specified")
     .trim()
@@ -164,12 +149,9 @@ export const book_instance_update_post = [
     .isISO8601()
     .toDate(),
 
-  // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
-    // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a BookInstance object with escaped and trimmed data.
     const bookInstance = new BookInstance({
       book: req.body.book,
       imprint: req.body.imprint,
@@ -178,8 +160,6 @@ export const book_instance_update_post = [
     });
 
     if (!errors.isEmpty()) {
-      // There are errors.
-      // Render form again with sanitized values and error messages.
       const allBooks = await Book.find({}, "title").sort({ title: 1 }).exec();
 
       res.render("book-instance/form", {
@@ -191,7 +171,6 @@ export const book_instance_update_post = [
       });
       return;
     } else {
-      // Data from form is valid
       await bookInstance.save();
       res.redirect(bookInstance.url);
     }

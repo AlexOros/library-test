@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const bookInstanceSchema = new Schema(
   {
-    book: { type: Schema.Types.ObjectId, ref: "Book", required: true }, // reference to the associated book
+    book: { type: Schema.Types.ObjectId, ref: "Book", required: true },
     imprint: { type: String, required: true },
     status: {
       type: String,
@@ -17,15 +17,13 @@ const bookInstanceSchema = new Schema(
   },
   {
     timestamps: {
-      createdAt: "created_at", // Use `created_at` to store the created date
-      updatedAt: "updated_at", // and `updated_at` to store the last updated date
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     },
   }
 );
 
-// Virtual for bookinstance's URL
 bookInstanceSchema.virtual("url").get(function () {
-  // We don't use an arrow function as we'll need the this object
   return `/catalog/book-instances/${this._id}`;
 });
 
