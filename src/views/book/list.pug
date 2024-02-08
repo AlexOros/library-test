@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   h1= title
@@ -6,8 +6,8 @@ block content
     ul
       each book in bookList
         li
-          a(href=book.url) #{book.title}
-          |  (#{book.author.name})
+          a(href=book.url) !{book.title}
+          |  (!{book.author.name})
 
   else
     p There are no books.

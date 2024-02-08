@@ -6,8 +6,6 @@ import {
   genre_create_post,
   genre_delete_get,
   genre_delete_post,
-  genre_update_get,
-  genre_update_post,
 } from "../../controllers/genre.js";
 
 const router = express.Router();
@@ -23,12 +21,6 @@ router.get("/:id/delete", genre_delete_get);
 
 // POST request to delete Genre.
 router.post("/:id/delete", genre_delete_post);
-
-// GET request to update Genre.
-router.get("/:id/update", genre_update_get);
-
-// POST request to update Genre.
-router.post("/:id/update", genre_update_post);
 
 // GET request for one Genre.
 router.get("/:id", genre_detail);

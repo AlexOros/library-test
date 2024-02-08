@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
   h1= title
@@ -7,6 +7,6 @@ block content
     ul
       each genre in genreList
         li
-          a(href=genre.url) #{genre.name}
+          a(href=genre.url) !{genre.name}
   else
     p There are no genres.
